@@ -1,0 +1,11 @@
+name: TenLives
+version: '${project.version}'
+main: com.shanebeestudios.tl.TenLives
+api-version: '1.15'
+
+commands:
+  giveitem:
+    description: Give a custom item
+    aliases:
+      - itemgive
+    permission: tenlives.command.giveitem
