@@ -39,4 +39,28 @@ public class PlayerUtils {
         return stringBuilder.toString();
     }
 
+    private static final String[] fatColors = new String[]{"5EF52E", "92F52E", "CEF52E", "F5EF2E", "F5CB2E",
+            "F5B02E", "F58E2E", "F5792E", "F5642E", "F5372E", "F5372E"};
+
+    public static String getFatigueString(double fatigue) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int fat = (int) Math.floor(fatigue * 2);
+
+        if (fat > 0) {
+            int c = (int) fatigue;
+            String color = Util.getColString("<#" + fatColors[c] + ">");
+            stringBuilder.append(color);
+
+            for (int i = 0; i < fat; i++) {
+                stringBuilder.append("|");
+            }
+        }
+
+        stringBuilder.append(ChatColor.GRAY);
+        for (int i = fat; i < 20; i++) {
+            stringBuilder.append("|");
+        }
+        return stringBuilder.toString();
+    }
+
 }

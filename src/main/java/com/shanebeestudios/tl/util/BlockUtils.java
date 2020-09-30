@@ -23,6 +23,7 @@ public class BlockUtils {
     public static final ImmutableSet<Material> SPAWN_AT;
     public static final ImmutableSet<Material> SPAWN_ON;
 
+    //<editor-fold desc="fold">
     static {
         CONTAINERS = ImmutableSet.<Material>builder()
                 .add(Material.CHEST)
@@ -74,6 +75,7 @@ public class BlockUtils {
                 .add(Material.YELLOW_TERRACOTTA)
                 .build();
     }
+    //</editor-fold>
 
     public static boolean isContainer(Material material) {
         if (Tag.SHULKER_BOXES.isTagged(material)) {

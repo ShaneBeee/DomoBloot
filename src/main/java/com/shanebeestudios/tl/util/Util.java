@@ -10,20 +10,26 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @SuppressWarnings("unused")
 public class Util {
 
-    public final static String PREFIX = "&7[&3Ten&bLives&7] ";
-    public final static World WORLD = Bukkit.getWorlds().get(0);
+    public static final String PREFIX = "&7[&3Ten&bLives&7] ";
+    public static final World WORLD = Bukkit.getWorlds().get(0);
+    private static final Pattern HEX_PATTERN = Pattern.compile("<#([A-Fa-f0-9]){6}>");
 
     public static String getColString(String string) {
+        Matcher matcher = HEX_PATTERN.matcher(string);
+        while (matcher.find()) {
+            final net.md_5.bungee.api.ChatColor hexColor = net.md_5.bungee.api.ChatColor.of(matcher.group().substring(1, matcher.group().length() - 1));
+            final String before = string.substring(0, matcher.start());
+            final String after = string.substring(matcher.end());
+            string = before + hexColor + after;
+            matcher = HEX_PATTERN.matcher(string);
+        }
         return ChatColor.translateAlternateColorCodes('&', string);
-    }
-
-    public static String getHexString(String hex, String string) {
-        String start = hex.startsWith("#") ? "" : "#";
-        String color = net.md_5.bungee.api.ChatColor.of(start + hex).toString();
-        return color + string;
     }
 
     public static void log(String message) {
@@ -73,7 +79,7 @@ public class Util {
     }
 
     /**
-     * Setup the immediate respawn gamerule for all worlds
+     * Setup the game rules for all worlds
      */
     public static void setGameRules() {
         for (World world : Bukkit.getWorlds()) {

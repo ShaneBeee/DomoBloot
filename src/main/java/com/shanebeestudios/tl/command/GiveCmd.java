@@ -37,7 +37,7 @@ public class GiveCmd extends BaseCmd {
                 }
             }
             for (Item item : Items.getItems()) {
-                if (item.getKey().equalsIgnoreCase(args[1])) {
+                if (item.getKey().getKey().equalsIgnoreCase(args[1])) {
                     ItemStack itemStack = item.getItemStack();
                     itemStack.setAmount(amount);
                     player.getInventory().addItem(itemStack);
@@ -56,7 +56,7 @@ public class GiveCmd extends BaseCmd {
         } else if (args.length == 2) {
             List<String> matches = new ArrayList<>();
             for (Item item : Items.getItems()) {
-                String name = item.getKey().toUpperCase();
+                String name = item.getKey().getKey().toUpperCase();
                 if (StringUtil.startsWithIgnoreCase(name, args[1])) {
                     matches.add(name);
                 }

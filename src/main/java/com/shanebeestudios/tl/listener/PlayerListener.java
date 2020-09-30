@@ -2,11 +2,16 @@ package com.shanebeestudios.tl.listener;
 
 import com.shanebeestudios.tl.TenLives;
 import com.shanebeestudios.tl.data.PlayerData;
+import com.shanebeestudios.tl.item.Consumable;
+import com.shanebeestudios.tl.item.Item;
 import com.shanebeestudios.tl.item.Items;
 import com.shanebeestudios.tl.manager.PlayerManager;
+import com.shanebeestudios.tl.manager.RecipeManager;
 import com.shanebeestudios.tl.util.PlayerUtils;
 import com.shanebeestudios.tl.util.Util;
+import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +21,12 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -27,6 +36,7 @@ public class PlayerListener implements Listener {
 
     private final TenLives plugin;
     private final PlayerManager playerManager;
+    private final RecipeManager recipeManager;
     private final Random random = new Random();
     private final int phantomChance = 10;
     private final double playerRespawnHealth = 30.0;
@@ -34,6 +44,7 @@ public class PlayerListener implements Listener {
     public PlayerListener(TenLives plugin) {
         this.plugin = plugin;
         this.playerManager = plugin.getPlayerManager();
+        this.recipeManager = plugin.getRecipeManager();
     }
 
     // When a player takes damage, set their max health to their current health
@@ -68,23 +79,34 @@ public class PlayerListener implements Listener {
         }
     }
 
-    //// Decrease energy when player does exhaustive tasks
-    //	@EventHandler
-    //    private void onSaturationReached(FoodLevelChangeEvent event) {
-    //        double modifier = config.MECHANICS_ENERGY_EXHAUSTION;
-    //        if (modifier <= 0) return;
-    //	    if (!(event.getEntity() instanceof Player)) return;
-    //	    Player player = (Player) event.getEntity();
-    //	    if (event.getFoodLevel() > player.getFoodLevel()) return;
-    //        GameMode mode = player.getGameMode();
-    //	    if (mode == GameMode.SURVIVAL || mode == GameMode.ADVENTURE) {
-    //            PlayerData playerData = playerManager.getPlayerData(player);
-    //            EnergyLevelChangeEvent energyEvent = new EnergyLevelChangeEvent(player, -modifier, playerData.getEnergy() - modifier);
-    //            Bukkit.getPluginManager().callEvent(energyEvent);
-    //            if (energyEvent.isCancelled()) return;
-    //            playerData.increaseEnergy(-modifier);
-    //        }
-    //    }
+    // When a player consumes an Item, use it
+    @EventHandler
+    private void onDrink(PlayerItemConsumeEvent event) {
+        Player player = event.getPlayer();
+        ItemStack itemStack = event.getItem();
+        if (Items.isItem(itemStack)) {
+            Item item = Items.getItemFromItemStack(itemStack);
+            if (item instanceof Consumable) {
+                ((Consumable) item).consume(player);
+            }
+        }
+    }
+
+    @EventHandler
+    private void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
+        Player player = event.getPlayer();
+        Entity entity = event.getRightClicked();
+        if (event.getHand() == EquipmentSlot.HAND) {
+            if (entity instanceof Cow) { // Player clicks a cow with a glass bottle to get a bottle of milk
+                ItemStack hand = player.getInventory().getItemInMainHand();
+                if (hand.getType() == Material.GLASS_BOTTLE) {
+                    event.setCancelled(true);
+                    hand.setAmount(hand.getAmount() - 1);
+                    player.getWorld().dropItem(player.getLocation(), Items.MILK_BOTTLE.getItemStack());
+                }
+            }
+        }
+    }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
@@ -95,7 +117,7 @@ public class PlayerListener implements Listener {
             player.setHealth(30);
         }
         // Unlock all custom recipes when player joins
-        Items.unlockAllCustomRecipes(player);
+        recipeManager.unlockAllCustomRecipes(player);
         // Load PlayerData for player
         plugin.getPlayerManager().getPlayerData(player);
     }
@@ -111,6 +133,7 @@ public class PlayerListener implements Listener {
     private void onDeath(PlayerDeathEvent event) {
         String deathMessage = event.getDeathMessage();
         event.setDeathMessage(null);
+        event.getDrops().clear();
 
         BukkitRunnable runnable = new BukkitRunnable() {
             String message = deathMessage;

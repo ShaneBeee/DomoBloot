@@ -21,7 +21,7 @@ public class WorldListener implements Listener {
     @EventHandler
     private void onPing(PaperServerListPingEvent event) {
         event.setVersion("BeeServer 1.15.2");
-        event.setMotd(Util.getColString("&7[&b&lTen&3&lLives&7]"));
+        event.setMotd(Util.getColString("&7[&b&lDomo&3&lBloot&7]"));
     }
 
 }

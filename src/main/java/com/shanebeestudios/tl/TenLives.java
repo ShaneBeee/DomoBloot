@@ -8,6 +8,7 @@ import com.shanebeestudios.tl.listener.EntityListener;
 import com.shanebeestudios.tl.listener.PlayerListener;
 import com.shanebeestudios.tl.listener.WorldListener;
 import com.shanebeestudios.tl.manager.PlayerManager;
+import com.shanebeestudios.tl.manager.RecipeManager;
 import com.shanebeestudios.tl.task.EnergyTask;
 import com.shanebeestudios.tl.util.Util;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public class TenLives extends JavaPlugin {
     private static TenLives instance;
     private PlayerDataConfig playerDataConfig;
     private PlayerManager playerManager;
+    private RecipeManager recipeManager;
 
     // Tasks
     private EnergyTask energyTask;
@@ -36,7 +38,8 @@ public class TenLives extends JavaPlugin {
         instance = this;
         this.playerDataConfig = new PlayerDataConfig(this);
         this.playerManager = new PlayerManager(this);
-        Items.registerRecipes();
+        this.recipeManager = new RecipeManager(this);
+
         loadListeners();
         loadCommands();
         loadTasks();
@@ -80,6 +83,10 @@ public class TenLives extends JavaPlugin {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
+    }
+
+    public RecipeManager getRecipeManager() {
+        return recipeManager;
     }
 
 }
