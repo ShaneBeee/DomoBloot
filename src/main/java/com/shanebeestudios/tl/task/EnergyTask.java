@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.task;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.data.PlayerData;
 import com.shanebeestudios.tl.manager.PlayerManager;
 import org.bukkit.Bukkit;
@@ -11,7 +11,7 @@ public class EnergyTask implements Runnable {
     private final PlayerManager playerManager;
     private final int id;
 
-    public EnergyTask(TenLives plugin) {
+    public EnergyTask(DomoBloot plugin) {
         this.playerManager = plugin.getPlayerManager();
         this.id = Bukkit.getScheduler().runTaskTimer(plugin, this, 40, 20).getTaskId();
     }

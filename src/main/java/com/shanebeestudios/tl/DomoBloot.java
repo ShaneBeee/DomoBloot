@@ -3,7 +3,6 @@ package com.shanebeestudios.tl;
 import com.shanebeestudios.tl.command.GiveCmd;
 import com.shanebeestudios.tl.config.PlayerDataConfig;
 import com.shanebeestudios.tl.data.PlayerData;
-import com.shanebeestudios.tl.item.Items;
 import com.shanebeestudios.tl.listener.EntityListener;
 import com.shanebeestudios.tl.listener.PlayerListener;
 import com.shanebeestudios.tl.listener.WorldListener;
@@ -17,14 +16,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
-public class TenLives extends JavaPlugin {
+public class DomoBloot extends JavaPlugin {
 
     static {
         // Register PlayerData configuration serialization
         ConfigurationSerialization.registerClass(PlayerData.class, "PlayerData");
     }
 
-    private static TenLives instance;
+    private static DomoBloot instance;
     private PlayerDataConfig playerDataConfig;
     private PlayerManager playerManager;
     private RecipeManager recipeManager;
@@ -73,7 +72,7 @@ public class TenLives extends JavaPlugin {
         new GiveCmd(this);
     }
 
-    public static TenLives getPlugin() {
+    public static DomoBloot getPlugin() {
         return instance;
     }
 

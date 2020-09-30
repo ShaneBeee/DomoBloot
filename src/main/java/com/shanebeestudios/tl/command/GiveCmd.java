@@ -1,7 +1,7 @@
 package com.shanebeestudios.tl.command;
 
 import com.google.common.collect.ImmutableList;
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.item.Item;
 import com.shanebeestudios.tl.item.Items;
 import com.shanebeestudios.tl.util.Util;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GiveCmd extends BaseCmd {
 
-    public GiveCmd(@NotNull TenLives plugin) {
+    public GiveCmd(@NotNull DomoBloot plugin) {
         super(plugin, "giveitem");
     }
 

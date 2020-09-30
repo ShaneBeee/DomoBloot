@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.config;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.data.PlayerData;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,9 +12,9 @@ import java.io.IOException;
 
 public class PlayerDataConfig {
 
-    private final TenLives plugin;
+    private final DomoBloot plugin;
 
-    public PlayerDataConfig(TenLives plugin) {
+    public PlayerDataConfig(DomoBloot plugin) {
         this.plugin = plugin;
     }
 

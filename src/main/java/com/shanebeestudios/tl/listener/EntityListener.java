@@ -1,7 +1,7 @@
 package com.shanebeestudios.tl.listener;
 
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -17,10 +17,10 @@ import java.util.Random;
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class EntityListener implements Listener {
 
-    private final TenLives plugin;
+    private final DomoBloot plugin;
     private final Random random = new Random();
 
-    public EntityListener(TenLives plugin) {
+    public EntityListener(DomoBloot plugin) {
         this.plugin = plugin;
     }
 

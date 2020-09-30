@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.manager;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.item.Item;
 import com.shanebeestudios.tl.item.Items;
 import com.shanebeestudios.tl.util.Util;
@@ -21,10 +21,10 @@ import java.util.List;
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class RecipeManager {
 
-    private final TenLives plugin;
+    private final DomoBloot plugin;
     final List<NamespacedKey> RECIPE_KEYS = new ArrayList<>();
 
-    public RecipeManager(TenLives plugin) {
+    public RecipeManager(DomoBloot plugin) {
         this.plugin = plugin;
         loadRecipes();
     }

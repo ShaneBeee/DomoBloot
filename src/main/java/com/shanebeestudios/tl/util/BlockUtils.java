@@ -1,7 +1,7 @@
 package com.shanebeestudios.tl.util;
 
 import com.google.common.collect.ImmutableSet;
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
@@ -36,7 +36,7 @@ public class BlockUtils {
                 .add(Material.DROPPER)
                 .add(Material.HOPPER)
                 .build();
-        HOLDERS = new NamespacedKey(TenLives.getPlugin(), "holders");
+        HOLDERS = new NamespacedKey(DomoBloot.getPlugin(), "holders");
         SPAWN_AT = ImmutableSet.<Material>builder()
                 .add(Material.AIR)
                 .add(Material.GRASS)

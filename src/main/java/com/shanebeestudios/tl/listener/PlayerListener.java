@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.listener;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.data.PlayerData;
 import com.shanebeestudios.tl.item.Consumable;
 import com.shanebeestudios.tl.item.Item;
@@ -34,14 +34,14 @@ import java.util.Random;
 @SuppressWarnings("FieldCanBeLocal")
 public class PlayerListener implements Listener {
 
-    private final TenLives plugin;
+    private final DomoBloot plugin;
     private final PlayerManager playerManager;
     private final RecipeManager recipeManager;
     private final Random random = new Random();
     private final int phantomChance = 10;
     private final double playerRespawnHealth = 30.0;
 
-    public PlayerListener(TenLives plugin) {
+    public PlayerListener(DomoBloot plugin) {
         this.plugin = plugin;
         this.playerManager = plugin.getPlayerManager();
         this.recipeManager = plugin.getRecipeManager();

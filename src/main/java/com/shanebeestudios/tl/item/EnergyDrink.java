@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.item;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import com.shanebeestudios.tl.data.PlayerData;
 import com.shanebeestudios.tl.util.Util;
 import org.bukkit.Color;
@@ -40,7 +40,7 @@ public class EnergyDrink extends Consumable {
 
     @Override
     public void consume(Player player) {
-        PlayerData playerData = TenLives.getPlugin().getPlayerManager().getPlayerData(player);
+        PlayerData playerData = DomoBloot.getPlugin().getPlayerManager().getPlayerData(player);
         playerData.increaseEnergy(energy);
         if (playerData.getFatigue() + fatigue > 10) {
             player.damage(1.0);

@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.item;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ public class Item {
     final ItemStack itemStack;
 
     Item(@NotNull String key, @NotNull ItemStack itemStack) {
-        this.key = new NamespacedKey(TenLives.getPlugin(), key.toLowerCase());
+        this.key = new NamespacedKey(DomoBloot.getPlugin(), key.toLowerCase());
 
         // Add custom-item key to NBT
         NBTItem nbtItem = new NBTItem(itemStack);

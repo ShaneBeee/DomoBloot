@@ -1,6 +1,6 @@
 package com.shanebeestudios.tl.command;
 
-import com.shanebeestudios.tl.TenLives;
+import com.shanebeestudios.tl.DomoBloot;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -13,9 +13,9 @@ import java.util.List;
 @SuppressWarnings("ConstantConditions")
 public abstract class BaseCmd implements TabExecutor {
 
-    private final TenLives plugin;
+    private final DomoBloot plugin;
 
-    BaseCmd(@NotNull TenLives plugin, @NotNull String commandString) {
+    BaseCmd(@NotNull DomoBloot plugin, @NotNull String commandString) {
         this.plugin = plugin;
 
         PluginCommand command = plugin.getCommand(commandString);
@@ -23,7 +23,7 @@ public abstract class BaseCmd implements TabExecutor {
         command.setTabCompleter(this);
     }
 
-    public TenLives getPlugin() {
+    public DomoBloot getPlugin() {
         return plugin;
     }
 
