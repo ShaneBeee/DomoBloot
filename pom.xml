@@ -87,7 +87,7 @@
                     <relocations>
                         <relocation>
                             <pattern>de.tr7zw.changeme.nbtapi</pattern>
-                            <shadedPattern>com.shanebeestudios.tl.api</shadedPattern>
+                            <shadedPattern>com.shanebeestudios.domo.api</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
