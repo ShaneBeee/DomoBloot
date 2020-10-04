@@ -67,7 +67,7 @@ public class PlayerUtils {
         return stringBuilder.toString();
     }
 
-    public static String getAirString(double air) {
+    public static String getOxygenString(double air) {
         StringBuilder stringBuilder = new StringBuilder();
         int round = (int) Math.floor(air);
 
@@ -88,7 +88,7 @@ public class PlayerUtils {
         return stringBuilder.toString();
     }
 
-    public static int getAirHelmetLevel(Player player) {
+    public static int getOxygenHelmetLevel(Player player) {
         int waterBreathing = hasWaterBreathing(player);
         if (waterBreathing > 0) {
             return waterBreathing;

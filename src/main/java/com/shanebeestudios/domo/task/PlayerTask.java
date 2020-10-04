@@ -56,8 +56,8 @@ public class PlayerTask implements Runnable {
             energyEffects(player, playerData.getEnergy());
             // Manage fatigue effects
             fatigueEffects(player, playerData.getFatigue());
-            // Manage air in cave
-            manageAir(player, playerData);
+            // Manage oxygen in cave
+            manageOxygen(player, playerData);
         }
     }
 
@@ -65,32 +65,30 @@ public class PlayerTask implements Runnable {
         Bukkit.getScheduler().cancelTask(id);
     }
 
-    private final double AIR_AMOUNT = 0.0667;
+    private final double OXYGEN_AMOUNT = 0.0667;
 
-    private void manageAir(Player player, PlayerData playerData) {
+    private void manageOxygen(Player player, PlayerData playerData) {
         int air = player.getRemainingAir();
-        double pdAir = playerData.getAir();
+        double oxygen = playerData.getOxygen();
         if (air < 300) {
             double a = (double) air / 15;
-            if (a < pdAir) {
-                playerData.setAir((double) air / 15);
+            if (a < oxygen) {
+                playerData.setOxygen((double) air / 15);
             }
         } else if (isInCave(player)) {
-            int airHelmet = PlayerUtils.getAirHelmetLevel(player);
-            double change = airHelmet == 0 ? -AIR_AMOUNT : -(AIR_AMOUNT / (1 + airHelmet)); // TODO eval
-            playerData.increaseAir(change);
-            player.sendActionBar("Change: " + change);
+            int airHelmet = PlayerUtils.getOxygenHelmetLevel(player);
+            double change = airHelmet == 0 ? -OXYGEN_AMOUNT : -(OXYGEN_AMOUNT / (1 + airHelmet)); // TODO eval
+            playerData.increaseOxygen(change);
         } else {
-            playerData.increaseAir(2.0);
+            playerData.increaseOxygen(2.0);
         }
-        if (pdAir < 0.5 && player.getGameMode() == GameMode.SURVIVAL) {
+        if (oxygen < 0.5 && player.getGameMode() == GameMode.SURVIVAL) {
             player.damage(1.0);
         }
     }
 
     private boolean isInCave(Player player) {
         Location location = player.getEyeLocation();
-        int y = location.getBlockY();
         Block block = location.getBlock();
         Material material = block.getType();
         if (material == Material.AIR) {
