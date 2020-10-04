@@ -8,7 +8,8 @@ import com.shanebeestudios.domo.listener.PlayerListener;
 import com.shanebeestudios.domo.listener.WorldListener;
 import com.shanebeestudios.domo.manager.PlayerManager;
 import com.shanebeestudios.domo.manager.RecipeManager;
-import com.shanebeestudios.domo.task.EnergyTask;
+import com.shanebeestudios.domo.task.PlayerTask;
+import com.shanebeestudios.domo.task.ServerTask;
 import com.shanebeestudios.domo.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -29,7 +30,8 @@ public class DomoBloot extends JavaPlugin {
     private RecipeManager recipeManager;
 
     // Tasks
-    private EnergyTask energyTask;
+    private PlayerTask playerTask;
+    private ServerTask serverTask;
 
     @Override
     public void onEnable() {
@@ -50,8 +52,10 @@ public class DomoBloot extends JavaPlugin {
     @Override
     public void onDisable() {
         this.playerManager.getPlayerDatas().forEach(playerData -> playerDataConfig.saveData(playerData));
-        this.energyTask.cancel();
-        this.energyTask = null;
+        this.playerTask.cancel();
+        this.playerTask = null;
+        this.serverTask.cancel();
+        this.serverTask = null;
         this.playerDataConfig = null;
         this.playerManager = null;
         instance = null;
@@ -65,7 +69,8 @@ public class DomoBloot extends JavaPlugin {
     }
 
     private void loadTasks() {
-        this.energyTask = new EnergyTask(this);
+        this.playerTask = new PlayerTask(this);
+        this.serverTask = new ServerTask(this);
     }
 
     private void loadCommands() {

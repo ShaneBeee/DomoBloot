@@ -5,6 +5,8 @@ import com.shanebeestudios.domo.DomoBloot;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataHolder;
@@ -86,6 +88,15 @@ public class BlockUtils {
 
     public static boolean isSpawnableAt(Material material) {
         return SPAWN_AT.contains(material) || Tag.FLOWERS.isTagged(material);
+    }
+
+    public static boolean isBlockInCave(Block block) {
+        for (BlockFace value : BlockFace.values()) {
+            if (block.getRelative(value).getType() == Material.CAVE_AIR) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean canSpawnOn(Material material) {

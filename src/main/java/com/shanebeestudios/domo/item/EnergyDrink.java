@@ -19,15 +19,15 @@ public class EnergyDrink extends Consumable {
     private final double energy;
     private final double fatigue;
 
-    EnergyDrink(@NotNull String key, @NotNull String name, @NotNull Material material, double energy, double fatigue, Color color) {
-        super(key, new ItemStack(material));
+    EnergyDrink(@NotNull String key, @NotNull String name, double energy, double fatigue, Color color) {
+        super(key, new ItemStack(Material.POTION));
         this.energy = energy;
         this.fatigue = fatigue;
 
         PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
         meta.setDisplayName(Util.getColString(name));
         List<String> lore = new ArrayList<>();
-        lore.add(Util.getColString("<#9EACCF>&oDrinking an energy drink will increase energy,"));
+        lore.add(Util.getColString("<#9EACCF>&oDrinking a revitalizing drink will increase energy,"));
         lore.add(Util.getColString("<#9EACCF>&obut it will also increase your fatigue"));
         lore.add(" ");
         lore.add(Util.getColString("<#9ACD61>&lEnergy Change: &a+" + energy));

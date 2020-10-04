@@ -38,8 +38,8 @@ public class PlayerListener implements Listener {
     private final PlayerManager playerManager;
     private final RecipeManager recipeManager;
     private final Random random = new Random();
-    private final int phantomChance = 10;
-    private final double playerRespawnHealth = 30.0;
+    private final int PHANTOM_CHANCE = 10;
+    private final double RESPAWN_HEALTH = 30.0;
 
     public PlayerListener(DomoBloot plugin) {
         this.plugin = plugin;
@@ -111,11 +111,24 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+
+        // Update join message
+        String message = event.getJoinMessage();
+        if (message != null) {
+            message = message.replace(player.getName(), "<#D059D2>" + player.getName() + "<#05CB74>");
+            event.setJoinMessage(null);
+
+            // Send HEX colored to players
+            Util.broadcastToPlayers(message);
+            // Send legacy colors to console
+            Util.log("&b" + player.getName() + "&a joined the game");
+        }
+
         // When joining, set the player's max health
         if (!player.hasPlayedBefore()) {
             PlayerUtils.setMaxHealth(player, 30);
-            player.setHealth(30);
         }
+        player.setHealth(PlayerUtils.getMaxHealth(player));
         // Unlock all custom recipes when player joins
         recipeManager.unlockAllCustomRecipes(player);
         // Load PlayerData for player
@@ -142,20 +155,25 @@ public class PlayerListener implements Listener {
             public void run() {
                 // When a player dies reset their max health
                 Player player = event.getEntity();
-                PlayerUtils.setMaxHealth(player, playerRespawnHealth);
-                player.setHealth(playerRespawnHealth);
+                PlayerUtils.setMaxHealth(player, RESPAWN_HEALTH);
+                player.setHealth(RESPAWN_HEALTH);
 
                 PlayerData playerData = playerManager.getPlayerData(player);
                 playerData.setEnergy(20.0);
+                playerData.setFatigue(0.0);
 
                 // Play a sound to all players
                 Util.deathSound();
 
                 // Make the death message a little fancier
-                message = "&d" + message.replace(player.getDisplayName(), "&b" + player.getDisplayName() + "&d");
-                Util.broadcast(message);
+                // Send legacy colors to console
+                Util.log("&c" + message);
+                // Send HEX colored to players
+                message = "&d" + message.replace(player.getDisplayName(), "<#12F3D4>" + player.getDisplayName() + "<#F75FF3>");
+                Util.broadcastToPlayers(message);
+
                 assert deathMessage != null;
-                Util.sendTitle(player, "&cGAME OVER", "&e" + deathMessage.replace(player.getName(), "You"));
+                Util.sendTitle(player, "<#8A0303>&lGAME OVER", "<#E46E22>&l" + deathMessage.replace(player.getName(), "You"));
             }
         };
         runnable.runTaskLater(plugin, 2);
@@ -169,7 +187,7 @@ public class PlayerListener implements Listener {
 
         if (ticksSinceSleep < 1000000 || ticksSinceSleep > 1010000) {
             int chance = random.nextInt(100);
-            if (chance < phantomChance) {
+            if (chance < PHANTOM_CHANCE) {
                 player.setStatistic(Statistic.TIME_SINCE_REST, 1000000);
             }
         } else {
@@ -182,6 +200,8 @@ public class PlayerListener implements Listener {
     private void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String msg = event.getMessage();
+        if (msg.startsWith("!")) return; // Skript effect commands
+
         event.setFormat(Util.getColString("&7[&a" + player.getName() + "&7] &c» &r" + msg));
     }
 

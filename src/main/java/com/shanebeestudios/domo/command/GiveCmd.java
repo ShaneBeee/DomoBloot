@@ -5,9 +5,9 @@ import com.shanebeestudios.domo.DomoBloot;
 import com.shanebeestudios.domo.item.Item;
 import com.shanebeestudios.domo.item.Items;
 import com.shanebeestudios.domo.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,13 +23,13 @@ public class GiveCmd extends BaseCmd {
 
     @Override
     protected boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            Util.error("Player command only!");
-            return true;
-        }
-        Player player = ((Player) sender);
         if (args.length == 2 || args.length == 3) {
             int amount = 1;
+            Player player = Bukkit.getPlayer(args[0]);
+            if (player == null) {
+                Util.sendColMsg(sender, "&cPlayer <" + args[0] + "> not found!");
+                return true;
+            }
             if (args.length == 3) {
                 try {
                     amount = Integer.parseInt(args[2]);
@@ -38,13 +38,23 @@ public class GiveCmd extends BaseCmd {
             }
             for (Item item : Items.getItems()) {
                 if (item.getKey().getKey().equalsIgnoreCase(args[1])) {
-                    ItemStack itemStack = item.getItemStack();
-                    itemStack.setAmount(amount);
-                    player.getInventory().addItem(itemStack);
+                    item.give(player, amount);
+                    if (sender instanceof Player) {
+                        if (sender == player) {
+                            Util.sendItemMsg(((Player) sender), "&aGave yourself &b" + amount + "&a of &b<item>", item);
+                        } else {
+                            Util.sendItemMsg(((Player) sender), "&aGave &b" + amount + "&a of &b<item>&a to &b" + player.getName(), item);
+                            Util.sendItemMsg(player, "&aYou received &b" + amount + "&a of &b<item> &afrom &b" + sender.getName(), item);
+                        }
+                    } else {
+                        Util.sendColMsg(sender, "&aGave &b" + amount + "&a of &b" + item.getName() + "&a to &b" + player.getName());
+                        Util.sendItemMsg(player, "&aYou received &b" + amount + "&a of &b<item> &afrom &3Domo&bBloot", item);
+
+                    }
                     return true;
                 }
             }
-            Util.sendColMsg(player, "&cItem &b" + args[1] + " &cnot found!", true);
+            Util.sendColMsg(player, "&cItem &b" + args[1] + " &cnot found!");
         }
         return true;
     }

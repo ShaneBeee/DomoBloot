@@ -1,8 +1,13 @@
 package com.shanebeestudios.domo.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
@@ -39,16 +44,15 @@ public class PlayerUtils {
         return stringBuilder.toString();
     }
 
-    private static final String[] fatColors = new String[]{"5EF52E", "92F52E", "CEF52E", "F5EF2E", "F5CB2E",
-            "F5B02E", "F58E2E", "F5792E", "F5642E", "F5372E", "F5372E"};
+    private static final String[] fatColors = new String[]{"5EF52E", "5EF52E", "92F52E", "CEF52E", "F5EF2E", "F5CB2E",
+            "F5B02E", "F58E2E", "F5792E", "F5642E", "F5372E"};
 
     public static String getFatigueString(double fatigue) {
         StringBuilder stringBuilder = new StringBuilder();
         int fat = (int) Math.floor(fatigue * 2);
 
         if (fat > 0) {
-            int c = (int) fatigue;
-            String color = Util.getColString("<#" + fatColors[c] + ">");
+            String color = Util.getColString("<#" + fatColors[(int) fatigue] + ">");
             stringBuilder.append(color);
 
             for (int i = 0; i < fat; i++) {
@@ -61,6 +65,50 @@ public class PlayerUtils {
             stringBuilder.append("|");
         }
         return stringBuilder.toString();
+    }
+
+    public static String getAirString(double air) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int round = (int) Math.floor(air);
+
+        if (round > 0) {
+            int c = round / 2;
+            String color = Util.getColString("<#" + fatColors[10 - c] + ">");
+            stringBuilder.append(color);
+
+            for (int i = 0; i < round; i++) {
+                stringBuilder.append("|");
+            }
+        }
+
+        stringBuilder.append(ChatColor.GRAY);
+        for (int i = round; i < 20; i++) {
+            stringBuilder.append("|");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static int getAirHelmetLevel(Player player) {
+        int waterBreathing = hasWaterBreathing(player);
+        if (waterBreathing > 0) {
+            return waterBreathing;
+        }
+        ItemStack helmet = player.getInventory().getHelmet();
+        if (helmet == null) return 0;
+        if (helmet.getType() == Material.TURTLE_HELMET) {
+            return 1;
+        }
+        // TODO custom cave helmet
+        return 0;
+    }
+
+    public static int hasWaterBreathing(Player player) {
+        for (PotionEffect activePotionEffect : player.getActivePotionEffects()) {
+            if (activePotionEffect.getType().equals(PotionEffectType.WATER_BREATHING)) {
+                return activePotionEffect.getAmplifier() + 1;
+            }
+        }
+        return 0;
     }
 
 }

@@ -32,10 +32,13 @@ public class Items {
     public static final Item ENERGY_DRINK;
     public static final Item ENERGY_DRINK_STRONG;
     public static final Item ENERGY_DRINK_LITE;
+    public static final Item COFFEE;
+    public static final Item COFFEE_STRONG;
     public static final Item MILK_BOTTLE;
 
     // Misc
     public static final Item ROCK;
+    public static final Item COFFEE_BEAN;
 
     static {
         IRON_HEALTH_STONE = new HealthStone("iron", Material.IRON_INGOT, Material.GOLD_NUGGET, 2, "&eHealth &6Stone", true);
@@ -46,11 +49,14 @@ public class Items {
         GOLD_PLATED_DIAMOND_CHESTPLATE = new HealthSuit(Material.DIAMOND_CHESTPLATE, EquipmentSlot.CHEST);
         GOLD_PLATED_DIAMOND_LEGGINGS = new HealthSuit(Material.DIAMOND_LEGGINGS, EquipmentSlot.LEGS);
         GOLD_PLATED_DIAMOND_BOOTS = new HealthSuit(Material.DIAMOND_BOOTS, EquipmentSlot.FEET);
-        ENERGY_DRINK_LITE = new EnergyDrink("energy_drink_lite", "<#BF6FF4>&lLite Energy Drink", Material.POTION, 2.0, 0.5, Color.fromRGB(191, 111, 244));
-        ENERGY_DRINK = new EnergyDrink("energy_drink", "<#05CA89>&lEnergy Drink", Material.POTION, 5.0, 1.25, Color.fromRGB(5, 202, 137));
-        ENERGY_DRINK_STRONG = new EnergyDrink("energy_drink_strong", "<#C84911>&lStrong Energy Drink", Material.POTION, 10.0, 2.5, Color.fromRGB(200, 73, 17));
+        ENERGY_DRINK_LITE = new EnergyDrink("energy_drink_lite", "<#BF6FF4>&lLite Energy Drink", 2.0, 0.75, Color.fromRGB(191, 111, 244));
+        ENERGY_DRINK = new EnergyDrink("energy_drink", "<#05CA89>&lEnergy Drink", 5.0, 1.87, Color.fromRGB(5, 202, 137));
+        ENERGY_DRINK_STRONG = new EnergyDrink("energy_drink_strong", "<#C84911>&lStrong Energy Drink", 10.0, 3.75, Color.fromRGB(200, 73, 17));
+        COFFEE = new EnergyDrink("coffee", "<#A54E0D>&lCoffee", 4.0, 0.75, Color.fromRGB(165, 78, 13));
+        COFFEE_STRONG = new EnergyDrink("coffee_strong", "<#582702>&lStrong Coffee", 8.0, 1.5, Color.fromRGB(88, 39, 2));
         MILK_BOTTLE = new MilkBottle("milk_bottle");
-        ROCK = new CustomModelItem("rock", "<#8ABFBF>Rock", Material.STICK, 1);
+        ROCK = new CustomModelItem("rock", "<#8ABFBF>&lRock", Material.STICK, 1);
+        COFFEE_BEAN = new CustomModelItem("coffee_bean", "<#A06B43>Coffee Bean", Material.COCOA_BEANS, 1);
     }
 
     public static Collection<Item> getItems() {
