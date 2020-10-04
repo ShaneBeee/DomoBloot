@@ -19,26 +19,29 @@ public class PlayerData implements ConfigurationSerializable {
     private final Board board;
     private double energy;
     private double fatigue;
-    private final String boardPrefix = Util.getColString("  &b&l&nDomo&3&l&nBloot&r  ");
+    private double oxygen;
+    private final String boardTitle = Util.getColString(" " + Util.PREFIX);
 
     public PlayerData(Player player) {
         this.uuid = player.getUniqueId();
         this.player = player;
         this.board = new Board(player);
-        this.board.setTitle(boardPrefix);
+        this.board.setTitle(boardTitle);
         this.energy = 20.0;
         this.fatigue = 0.0;
+        this.oxygen = 20.0;
     }
 
-    private PlayerData(UUID uuid, double energy, double fatigue) {
+    private PlayerData(UUID uuid, double energy, double fatigue, double oxygen) {
         this.uuid = uuid;
         Player player = Bukkit.getPlayer(uuid);
         assert player != null;
         this.player = player;
         this.board = new Board(player);
-        this.board.setTitle(boardPrefix);
+        this.board.setTitle(boardTitle);
         this.energy = energy;
         this.fatigue = fatigue;
+        this.oxygen = oxygen;
     }
 
     public UUID getUuid() {
@@ -76,6 +79,19 @@ public class PlayerData implements ConfigurationSerializable {
         updateBoard();
     }
 
+    public void setOxygen(double oxygen) {
+        this.oxygen = Math.max(0, Math.min(20.0, oxygen));
+        updateBoard();
+    }
+
+    public void increaseOxygen(double amount) {
+        setOxygen(oxygen + amount);
+    }
+
+    public double getOxygen() {
+        return oxygen;
+    }
+
     public void increaseFatigue(double amount) {
         setFatigue(fatigue + amount);
     }
@@ -85,12 +101,15 @@ public class PlayerData implements ConfigurationSerializable {
     }
 
     public void updateBoard() {
+        board.setLine(10, " ");
+        board.setLine(9, "<#35DF92>&lEnergy:");
+        board.setLine(8, PlayerUtils.getEnergyString(energy));
         board.setLine(7, " ");
-        board.setLine(6, Util.getColString("<#35DF92>&lEnergy:"));
-        board.setLine(5, PlayerUtils.getEnergyString(energy));
+        board.setLine(6, "<#B346EA>&lFatigue:");
+        board.setLine(5, PlayerUtils.getFatigueString(fatigue));
         board.setLine(4, " ");
-        board.setLine(3, Util.getColString("<#B346EA>&lFatigue:"));
-        board.setLine(2, PlayerUtils.getFatigueString(fatigue));
+        board.setLine(3, "<#35D7DF>&lOxygen:");
+        board.setLine(2, PlayerUtils.getOxygenString(oxygen)); // TODO getAirString
         board.setLine(1, " ");
     }
 
@@ -101,6 +120,7 @@ public class PlayerData implements ConfigurationSerializable {
         map.put("uuid", uuid.toString());
         map.put("energy", energy);
         map.put("fatigue", fatigue);
+        map.put("air", oxygen);
 
         return map;
     }
@@ -109,7 +129,8 @@ public class PlayerData implements ConfigurationSerializable {
         UUID uuid = UUID.fromString((String) args.get("uuid"));
         double energy = ((Number) args.get("energy")).doubleValue();
         double fatigue = ((Number) args.get("fatigue")).doubleValue();
-        return new PlayerData(uuid, energy, fatigue);
+        double oxygen = ((Number) args.get("oxygen")).doubleValue();
+        return new PlayerData(uuid, energy, fatigue, oxygen);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.shanebeestudios.domo.data;
 
+import com.shanebeestudios.domo.util.Util;
 import com.shanebeestudios.domo.util.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +16,6 @@ import org.bukkit.scoreboard.Team;
  */
 public class Board {
 
-    private static final boolean LEGACY = false;
     private static final int MAX = 128;
 
     private final Player player;
@@ -32,11 +32,7 @@ public class Board {
         oldScoreboard = player.getScoreboard();
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.player.setScoreboard(scoreboard);
-        if (LEGACY)
-            //noinspection deprecation
-            board = scoreboard.registerNewObjective("Board", "dummy");
-        else
-            board = scoreboard.registerNewObjective("Board", "dummy", "Board");
+        board = scoreboard.registerNewObjective("Board", "dummy", "Board");
         board.setDisplaySlot(DisplaySlot.SIDEBAR);
         board.setDisplayName(" ");
 
@@ -68,6 +64,7 @@ public class Board {
     public void setLine(int line, String text) {
         Validate.isBetween(line, 1, 15);
         Team t = lines[line - 1];
+        text = Util.getColString(text);
         if (text.length() > (MAX / 2)) {
             String prefix = getColString(text.substring(0, (MAX / 2)));
             String lastColor = ChatColor.getLastColors(prefix);
