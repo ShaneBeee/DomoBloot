@@ -27,9 +27,7 @@ public class PlayerData implements ConfigurationSerializable {
         this.player = player;
         this.board = new Board(player);
         this.board.setTitle(boardTitle);
-        this.energy = 20.0;
-        this.fatigue = 0.0;
-        this.oxygen = 20.0;
+        reset();
     }
 
     private PlayerData(UUID uuid, double energy, double fatigue, double oxygen) {
@@ -42,6 +40,12 @@ public class PlayerData implements ConfigurationSerializable {
         this.energy = energy;
         this.fatigue = fatigue;
         this.oxygen = oxygen;
+    }
+
+    public void reset() {
+        this.energy = 20.0;
+        this.fatigue = 0.0;
+        this.oxygen = 20.0;
     }
 
     public UUID getUuid() {

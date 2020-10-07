@@ -168,8 +168,7 @@ public class PlayerListener implements Listener {
                 player.setHealth(RESPAWN_HEALTH);
 
                 PlayerData playerData = playerManager.getPlayerData(player);
-                playerData.setEnergy(20.0);
-                playerData.setFatigue(0.0);
+                playerData.reset();
 
                 // Play a sound to all players
                 Util.deathSound();
