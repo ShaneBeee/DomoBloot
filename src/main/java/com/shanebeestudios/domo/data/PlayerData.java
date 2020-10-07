@@ -120,7 +120,7 @@ public class PlayerData implements ConfigurationSerializable {
         map.put("uuid", uuid.toString());
         map.put("energy", energy);
         map.put("fatigue", fatigue);
-        map.put("air", oxygen);
+        map.put("oxygen", oxygen);
 
         return map;
     }
