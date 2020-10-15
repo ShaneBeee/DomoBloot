@@ -114,10 +114,10 @@ public class Board {
      * @param on Whether on or off
      */
     public void toggle(boolean on) {
-        if (on) {
+        if (on && !this.on) {
             player.setScoreboard(this.scoreboard);
             this.on = true;
-        } else {
+        } else if (!on && this.on) {
             player.setScoreboard(this.oldScoreboard);
             this.on = false;
         }
