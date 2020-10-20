@@ -111,4 +111,9 @@ public class PlayerUtils {
         return 0;
     }
 
+    public static boolean isDay(Player player) {
+        long time = player.getWorld().getTime();
+        return time < 12542 || time > 23460;
+    }
+
 }

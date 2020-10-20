@@ -2,15 +2,19 @@ package com.shanebeestudios.domo.listener;
 
 import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
 import com.shanebeestudios.domo.DomoBloot;
+import com.shanebeestudios.domo.entity.EntityDefault;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.EntityType;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.world.ChunkPopulateEvent;
 
 import java.util.Random;
 
@@ -26,34 +30,44 @@ public class EntityListener implements Listener {
 
     @EventHandler
     private void onSpawn(CreatureSpawnEvent event) {
+        // If we are spawning an entity, we are going to ignore all of this
+        switch (event.getSpawnReason()) {
+            case CUSTOM:
+            case BREEDING:
+            case EGG:
+                return;
+        }
+
         LivingEntity entity = event.getEntity();
-        EntityType entityType = event.getEntityType();
         Location location = event.getLocation();
+        World world = entity.getWorld();
 
-        switch (event.getEntityType()) {
-            case ZOMBIE:
-                // Random chance to spawn a pillager instead of a zombie
-                if (location.getY() > 61 && random.nextInt(100) < 5) {
-                    event.setCancelled(true);
-                    location.getWorld().spawnEntity(location, EntityType.PILLAGER);
-                    return;
-                }
-                // Make adult zombies a lil bit faster (random speeds)
-                if (((Zombie) entity).isAdult()) {
-                    AttributeInstance attribute = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
-                    // Base = 0.23000000417232513
-                    assert attribute != null;
-                    attribute.setBaseValue((double) (random.nextInt(22) + 20) / 100);
-                }
-            break;
+        EntityDefault.getByType(event.getEntityType()).forEach(def -> {
+            if (!def.spawnAlternate(event)) {
+                def.set(entity);
+            }
+        });
+    }
 
-            // Randomly spawn illusioners once in a while
-            case CREEPER:
-                if (random.nextInt(100) < 5) {
-                    event.setCancelled(true);
-                    location.getWorld().spawnEntity(location, EntityType.ILLUSIONER);
+    @EventHandler
+    private void onDeath(EntityDeathEvent event) {
+        EntityDefault.getByType(event.getEntityType()).forEach( def -> def.drop(event));
+    }
+
+    // CreatureSpawnEvent is no longer called for chunk gen
+    // So we are going to manually call it
+    @EventHandler
+    private void onEntityGenerate(ChunkPopulateEvent event) {
+        Chunk chunk = event.getChunk();
+        World world = event.getWorld();
+        for (Entity entity : chunk.getEntities()) {
+            if (entity instanceof LivingEntity) {
+                CreatureSpawnEvent creatureSpawnEvent = new CreatureSpawnEvent((LivingEntity) entity, SpawnReason.CHUNK_GEN);
+                Bukkit.getPluginManager().callEvent(creatureSpawnEvent);
+                if (creatureSpawnEvent.isCancelled()) {
+                    entity.remove();
                 }
-            break;
+            }
         }
     }
 

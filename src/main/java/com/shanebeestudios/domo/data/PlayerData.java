@@ -58,7 +58,7 @@ public class PlayerData implements ConfigurationSerializable {
     }
 
     public boolean isDay() {
-        return player.getWorld().getTime() < 12542;
+        return PlayerUtils.isDay(player);
     }
 
     public double getEnergy() {

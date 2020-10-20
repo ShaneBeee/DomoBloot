@@ -9,3 +9,5 @@ commands:
     aliases:
       - itemgive
     permission: tenlives.command.giveitem
+  test:
+    description: test runner

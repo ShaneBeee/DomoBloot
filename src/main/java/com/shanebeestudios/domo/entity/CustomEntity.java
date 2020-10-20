@@ -1,22 +1,12 @@
 package com.shanebeestudios.domo.entity;
 
-import net.citizensnpcs.api.npc.NPC;
+import com.shanebeestudios.domo.DomoBloot;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 
 public abstract class CustomEntity {
 
-    NPC npc;
+    public static NamespacedKey KEY = new NamespacedKey(DomoBloot.getPlugin(), "custom_entity");
 
-    public CustomEntity(NPC npc) {
-        this.npc = npc;
-    }
-
-    public void spawn(Location location) {
-        npc.spawn(location);
-    }
-
-    public NPC getNpc() {
-        return npc;
-    }
-
+    public abstract void spawn(Location location);
 }

@@ -1,13 +1,16 @@
 package com.shanebeestudios.domo;
 
 import com.shanebeestudios.domo.command.GiveCmd;
+import com.shanebeestudios.domo.command.TestCmd;
 import com.shanebeestudios.domo.config.PlayerDataConfig;
 import com.shanebeestudios.domo.data.PlayerData;
+import com.shanebeestudios.domo.entity.EntityDefault;
 import com.shanebeestudios.domo.listener.EntityListener;
 import com.shanebeestudios.domo.listener.PlayerListener;
 import com.shanebeestudios.domo.listener.WorldListener;
 import com.shanebeestudios.domo.manager.PlayerManager;
 import com.shanebeestudios.domo.manager.RecipeManager;
+import com.shanebeestudios.domo.task.CustomEntityTask;
 import com.shanebeestudios.domo.task.PlayerTask;
 import com.shanebeestudios.domo.task.ServerTask;
 import com.shanebeestudios.domo.util.Util;
@@ -32,6 +35,7 @@ public class DomoBloot extends JavaPlugin {
     // Tasks
     private PlayerTask playerTask;
     private ServerTask serverTask;
+    private CustomEntityTask customEntityTask;
 
     @Override
     public void onEnable() {
@@ -56,12 +60,15 @@ public class DomoBloot extends JavaPlugin {
         this.playerTask = null;
         this.serverTask.cancel();
         this.serverTask = null;
+        this.customEntityTask.cancel();
+        this.customEntityTask = null;
         this.playerDataConfig = null;
         this.playerManager = null;
         instance = null;
     }
 
     private void loadListeners() {
+        EntityDefault.init();
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PlayerListener(this), this);
         pm.registerEvents(new WorldListener(), this);
@@ -71,10 +78,12 @@ public class DomoBloot extends JavaPlugin {
     private void loadTasks() {
         this.playerTask = new PlayerTask(this);
         this.serverTask = new ServerTask(this);
+        this.customEntityTask = new CustomEntityTask(this);
     }
 
     private void loadCommands() {
         new GiveCmd(this);
+        new TestCmd(this);
     }
 
     public static DomoBloot getPlugin() {
