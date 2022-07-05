@@ -3,8 +3,8 @@ package com.shanebeestudios.domo.entity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-public abstract class Trap extends CustomEntity {
+public interface Trap {
 
-    public abstract void trap(Entity trap, Player target);
+    void trap(Entity trap, Player target);
 
 }

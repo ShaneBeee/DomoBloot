@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Random;
 
 @SuppressWarnings("CodeBlock2Expr")
-public class PillagerHorsemen extends Trap {
+public class PillagerHorsemen extends CustomEntity implements Trap {
 
     private final Random RANDOM = new Random();
     private final ItemStack CROSSBOW = new ItemStack(Material.CROSSBOW);
