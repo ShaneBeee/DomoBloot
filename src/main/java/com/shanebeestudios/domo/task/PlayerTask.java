@@ -3,13 +3,11 @@ package com.shanebeestudios.domo.task;
 import com.shanebeestudios.domo.DomoBloot;
 import com.shanebeestudios.domo.data.PlayerData;
 import com.shanebeestudios.domo.manager.PlayerManager;
-import com.shanebeestudios.domo.util.BlockUtils;
 import com.shanebeestudios.domo.util.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -71,42 +69,46 @@ public class PlayerTask implements Runnable {
         Bukkit.getScheduler().cancelTask(id);
     }
 
-    private final double OXYGEN_AMOUNT = 0.0667;
-
     private void manageOxygen(Player player, PlayerData playerData) {
-        int air = player.getRemainingAir();
+        if (player.getGameMode() != GameMode.SURVIVAL) return;
+
+        int remainingAir = player.getRemainingAir();
         double oxygen = playerData.getOxygen();
-        if (air < 300) {
-            double a = (double) air / 15;
-            if (a < oxygen) {
-                playerData.setOxygen((double) air / 15);
+        Location location = player.getLocation();
+
+        if (remainingAir < 300) {
+            double air = (double) remainingAir / 15;
+            if (air < oxygen) {
+                playerData.setOxygen((double) remainingAir / 15);
             }
-        } else if (isInCave(player)) {
+        } else if (location.getY() < 32) {
             int airHelmet = PlayerUtils.getOxygenHelmetLevel(player);
-            double change = airHelmet == 0 ? -OXYGEN_AMOUNT : -(OXYGEN_AMOUNT / (1 + airHelmet)); // TODO eval
+            double oxygenAmount = getOxygenModifier(player);
+            double change = airHelmet == 0 ? -oxygenAmount : -(oxygenAmount / (1 + airHelmet));
             playerData.increaseOxygen(change);
         } else {
             playerData.increaseOxygen(2.0);
         }
-        if (oxygen < 0.5 && player.getGameMode() == GameMode.SURVIVAL) {
+        if (oxygen < 0.5) {
             player.damage(1.0);
         }
     }
 
-    private boolean isInCave(Player player) {
-        Location location = player.getEyeLocation();
-        Block block = location.getBlock();
-        Material material = block.getType();
-        if (material == Material.AIR) {
-            return false;
+    private double getOxygenModifier(Player player) {
+        Location location = player.getLocation();
+        Biome biome = location.getBlock().getBiome();
+
+        // 0.0333 -> takes 10 minutes to lose all oxygen
+        // 0.0667 -> takes 5 minutes to lose all oxygen
+        double oxygenAmount = 0.0333;
+        if (location.getY() < 0) {
+            oxygenAmount = 0.0667;
         }
-        if (material == Material.CAVE_AIR) {
-            return true;
+        // If player is in deep dark, lose oxygen quicker
+        if (biome == Biome.DEEP_DARK) {
+            oxygenAmount -= 0.02;
         }
-        if (BlockUtils.isBlockInCave(block)) {
-            return true;
-        }
-        return false;
+        return oxygenAmount;
     }
 
     private double getEnergyModifier(double fatigue) {
