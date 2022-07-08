@@ -53,13 +53,6 @@
             <artifactId>item-nbt-api</artifactId>
             <version>2.11.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>net.citizensnpcs</groupId>
-            <artifactId>citizensapi</artifactId>
-            <version>2.0.27-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <profiles>
@@ -72,7 +65,7 @@
                         <artifactId>maven-jar-plugin</artifactId>
                         <version>3.2.0</version>
                         <configuration>
-                            <outputDirectory>/Users/ShaneBee/Desktop/Server/BLOCK-BREAK-TEST/plugins</outputDirectory>
+                            <outputDirectory>/Users/ShaneBee/Desktop/Server/DomoBloot/plugins</outputDirectory>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -107,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>shade</id>
