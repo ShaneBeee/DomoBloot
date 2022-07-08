@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unused")
 public class Util {
 
-    public static final String CONSOLE_PREFIX = "&7[&3&lDomo&b&lBloot&7] ";
+    public static final String CONSOLE_PREFIX = "&7[&bDomo&3Bloot&7] ";
     public static final String PREFIX = "&7[<#23C8A8>&lDomo<#23B4C8>&lBloot&7] ";
     public static final World WORLD = Bukkit.getWorlds().get(0);
     private static final Pattern HEX_PATTERN = Pattern.compile("<#([A-Fa-f0-9]){6}>");
