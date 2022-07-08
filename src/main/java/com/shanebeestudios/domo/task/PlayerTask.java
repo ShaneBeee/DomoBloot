@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-
 public class PlayerTask implements Runnable {
 
     private final PlayerManager playerManager;
@@ -31,10 +29,10 @@ public class PlayerTask implements Runnable {
         for (PlayerData playerData : playerManager.getPlayerDatas()) {
             Player player = playerData.getPlayer();
             if (player.getGameMode() != GameMode.SURVIVAL) {
-                playerData.getBoard().toggle(false);
+                playerData.getBoard().hide();
                 continue;
             } else {
-                playerData.getBoard().toggle(true);
+                playerData.getBoard().show();
             }
             if (player.isSleeping()) {
                 // During the day, increase the player's energy - Should fill full in about 6 minutes
@@ -48,7 +46,7 @@ public class PlayerTask implements Runnable {
                     playerData.increaseFatigue(playerData.isDay() ? -0.05 : -0.2);
                 }
             } else {
-                // Slowly drain the players energy
+                // Slowly drain the player's energy
                 // -0.008333 = about 40 minutes to fully deplete energy
                 // Higher fatigue levels will modify this value
                 // Max modifier will take about 25 minutes
