@@ -32,22 +32,22 @@ public class PillagerHorsemen extends CustomEntity implements Trap {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void trap(Entity trap, Player target) {
-        if (!(trap instanceof ZombieHorse)) return;
+        if (!(trap instanceof ZombieHorse zombieHorse)) return;
 
-        Location location = trap.getLocation().clone();
-        World world = trap.getWorld();
+        Location location = zombieHorse.getLocation().clone();
+        World world = zombieHorse.getWorld();
 
         // After we initiate our trap, we make this entity no longer a trap
-        trap.getPersistentDataContainer().remove(CustomEntity.KEY);
+        zombieHorse.getPersistentDataContainer().remove(CustomEntity.KEY);
 
         world.strikeLightningEffect(location);
 
-        trap.addPassenger(world.spawn(location, Pillager.class, pillager -> {
+        zombieHorse.addPassenger(world.spawn(location, Pillager.class, pillager -> {
             pillager.getEquipment().setItemInMainHand(CROSSBOW.clone());
             pillager.setPatrolLeader(true);
         }));
-        ((ZombieHorse) trap).setTamed(true);
-        ((ZombieHorse) trap).getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
+        zombieHorse.setTamed(true);
+        zombieHorse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
 
         for (int i = 0; i < 3; i++) {
             Location loc = location.clone().add(RANDOM.nextInt(3) + 1, 0, RANDOM.nextInt(3) + 1);

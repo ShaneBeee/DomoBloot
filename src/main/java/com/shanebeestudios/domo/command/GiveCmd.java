@@ -38,7 +38,7 @@ public class GiveCmd extends BaseCmd {
             }
             for (Item item : Items.getItems()) {
                 if (item.getKey().getKey().equalsIgnoreCase(args[1])) {
-                    item.give(player, amount);
+                    item.drop(player, amount);
                     if (sender instanceof Player) {
                         if (sender == player) {
                             Util.sendItemMsg(((Player) sender), "&aGave yourself &b" + amount + "&a of &b<item>", item);

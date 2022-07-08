@@ -18,8 +18,9 @@ public class HealthSuit extends Item {
     // when a player is wearing full armor
     private static final double SPEED_MOD = -0.00576923;
 
+    @SuppressWarnings("deprecation") // Paper deprecation
     HealthSuit(@NotNull Material material, @NotNull EquipmentSlot slot) {
-        super("gold_plated_" + material.toString().toLowerCase(), new ItemStack(material));
+        super("gold_plated_" + material.getKey().getKey(), material);
         // Item
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(Util.getColString("&6Gold Plated &3" + Util.caps(material.toString())));

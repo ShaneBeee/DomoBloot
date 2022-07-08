@@ -17,28 +17,28 @@ public class Items {
     static final Map<String, Item> ITEMS = new HashMap<>();
 
     // Health
-    public static final Item IRON_HEALTH_STONE;
-    public static final Item DIAMOND_HEALTH_STONE;
-    public static final Item STRONG_DIAMOND_HEALTH_STONE;
-    public static final Item EMERALD_HEALTH_STONE;
+    public static final HealthStone IRON_HEALTH_STONE;
+    public static final HealthStone DIAMOND_HEALTH_STONE;
+    public static final HealthStone STRONG_DIAMOND_HEALTH_STONE;
+    public static final HealthStone EMERALD_HEALTH_STONE;
 
     // Gear
-    public static final Item GOLD_PLATED_DIAMOND_HELMET;
-    public static final Item GOLD_PLATED_DIAMOND_CHESTPLATE;
-    public static final Item GOLD_PLATED_DIAMOND_LEGGINGS;
-    public static final Item GOLD_PLATED_DIAMOND_BOOTS;
+    public static final HealthSuit GOLD_PLATED_DIAMOND_HELMET;
+    public static final HealthSuit GOLD_PLATED_DIAMOND_CHESTPLATE;
+    public static final HealthSuit GOLD_PLATED_DIAMOND_LEGGINGS;
+    public static final HealthSuit GOLD_PLATED_DIAMOND_BOOTS;
 
     // Consumables
-    public static final Item ENERGY_DRINK;
-    public static final Item ENERGY_DRINK_STRONG;
-    public static final Item ENERGY_DRINK_LITE;
-    public static final Item COFFEE;
-    public static final Item COFFEE_STRONG;
-    public static final Item MILK_BOTTLE;
+    public static final EnergyDrink ENERGY_DRINK;
+    public static final EnergyDrink ENERGY_DRINK_STRONG;
+    public static final EnergyDrink ENERGY_DRINK_LITE;
+    public static final EnergyDrink COFFEE;
+    public static final EnergyDrink COFFEE_STRONG;
+    public static final MilkBottle MILK_BOTTLE;
 
     // Misc
-    public static final Item ROCK;
-    public static final Item COFFEE_BEAN;
+    public static final CustomModelItem ROCK;
+    public static final CustomModelItem COFFEE_BEAN;
 
     static {
         IRON_HEALTH_STONE = new HealthStone("iron", Material.IRON_INGOT, Material.GOLD_NUGGET, 2, "&eHealth &6Stone", true);
@@ -65,13 +65,13 @@ public class Items {
 
     public static boolean isItem(ItemStack itemStack) {
         NBTItem nbtItem = new NBTItem(itemStack);
-        return nbtItem.hasKey("key");
+        return nbtItem.hasTag("key");
     }
 
     @Nullable
     public static Item getItemFromItemStack(ItemStack itemStack) {
         NBTItem nbtItem = new NBTItem(itemStack);
-        if (nbtItem.hasKey("key")) {
+        if (nbtItem.hasTag("key")) {
             String key = nbtItem.getString("key");
             if (ITEMS.containsKey(key)) {
                 return ITEMS.get(key);

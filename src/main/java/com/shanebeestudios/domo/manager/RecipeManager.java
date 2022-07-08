@@ -1,6 +1,7 @@
 package com.shanebeestudios.domo.manager;
 
 import com.shanebeestudios.domo.DomoBloot;
+import com.shanebeestudios.domo.item.HealthStone;
 import com.shanebeestudios.domo.item.Item;
 import com.shanebeestudios.domo.item.Items;
 import com.shanebeestudios.domo.util.Util;
@@ -31,10 +32,10 @@ public class RecipeManager {
     }
 
     private void loadRecipes() {
-        registerHealthStoneRecipe(Items.IRON_HEALTH_STONE, Material.GOLD_NUGGET);
-        registerHealthStoneRecipe(Items.DIAMOND_HEALTH_STONE, Material.IRON_NUGGET);
-        registerHealthStoneRecipe(Items.STRONG_DIAMOND_HEALTH_STONE, Material.DIAMOND);
-        registerHealthStoneRecipe(Items.EMERALD_HEALTH_STONE, Material.PRISMARINE_SHARD);
+        registerHealthStoneRecipe(Items.IRON_HEALTH_STONE);
+        registerHealthStoneRecipe(Items.DIAMOND_HEALTH_STONE);
+        registerHealthStoneRecipe(Items.STRONG_DIAMOND_HEALTH_STONE);
+        registerHealthStoneRecipe(Items.EMERALD_HEALTH_STONE);
 
         registerHealthSuitRecipe(Items.GOLD_PLATED_DIAMOND_HELMET);
         registerHealthSuitRecipe(Items.GOLD_PLATED_DIAMOND_CHESTPLATE);
@@ -50,7 +51,7 @@ public class RecipeManager {
     }
 
     //<editor-fold desc="keep-folded">
-    private void registerHealthStoneRecipe(Item stone, Material modMaterial) {
+    private void registerHealthStoneRecipe(HealthStone stone) {
         ItemStack itemStack = stone.getItemStack();
         Material material = itemStack.getType();
         NamespacedKey nameKey = stone.getKey();
@@ -59,7 +60,7 @@ public class RecipeManager {
         ShapedRecipe shapedRecipe = new ShapedRecipe(nameKey, itemStack);
         shapedRecipe.shape(" e ", "ded", " d ");
         shapedRecipe.setIngredient('e', material);
-        shapedRecipe.setIngredient('d', modMaterial);
+        shapedRecipe.setIngredient('d', stone.getModMaterial());
         Bukkit.addRecipe(shapedRecipe);
     }
 

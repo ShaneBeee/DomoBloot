@@ -95,8 +95,8 @@ public class PlayerListener implements Listener {
         ItemStack itemStack = event.getItem();
         if (Items.isItem(itemStack)) {
             Item item = Items.getItemFromItemStack(itemStack);
-            if (item instanceof Consumable) {
-                ((Consumable) item).consume(player);
+            if (item instanceof Consumable consumable) {
+                consumable.consume(player);
             }
         }
     }

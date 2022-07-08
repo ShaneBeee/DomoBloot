@@ -7,7 +7,6 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,8 +17,12 @@ public class HealthStone extends Item {
     // when a player is wearing full armor
     private static final double SPEED_MOD = -0.00576923;
 
+    private final Material modMaterial;
+
+    @SuppressWarnings("deprecation") // Paper deprecation
     HealthStone(@NotNull String stoneKey, Material result, Material modMaterial, double health, String name, boolean glowing) {
-        super(stoneKey.toLowerCase() + "_health_stone", new ItemStack(result));
+        super(stoneKey.toLowerCase() + "_health_stone", result);
+        this.modMaterial = modMaterial;
         // Item
         ItemMeta meta = itemStack.getItemMeta();
         String keyName = result.toString().toLowerCase();
@@ -43,6 +46,10 @@ public class HealthStone extends Item {
                 EquipmentSlot.OFF_HAND);
         meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, speedMod);
         itemStack.setItemMeta(meta);
+    }
+
+    public Material getModMaterial() {
+        return modMaterial;
     }
 
 }

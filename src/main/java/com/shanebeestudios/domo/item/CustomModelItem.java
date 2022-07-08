@@ -8,15 +8,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class CustomModelItem extends Item {
 
+    @SuppressWarnings("deprecation") // Paper deprecation
     CustomModelItem(@NotNull String key, @NotNull String name, @NotNull Material material, int model) {
-        super(key, new ItemStack(material));
+        super(key, material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(model);
 
         itemMeta.setDisplayName(Util.getColString(name));
         itemStack.setItemMeta(itemMeta);
-
-        //Items.ITEMS.add(this);
     }
 
 }

@@ -61,8 +61,8 @@ public class EntityListener implements Listener {
         Chunk chunk = event.getChunk();
         World world = event.getWorld();
         for (Entity entity : chunk.getEntities()) {
-            if (entity instanceof LivingEntity) {
-                CreatureSpawnEvent creatureSpawnEvent = new CreatureSpawnEvent((LivingEntity) entity, SpawnReason.CHUNK_GEN);
+            if (entity instanceof LivingEntity livingEntity) {
+                CreatureSpawnEvent creatureSpawnEvent = new CreatureSpawnEvent(livingEntity, SpawnReason.CHUNK_GEN);
                 Bukkit.getPluginManager().callEvent(creatureSpawnEvent);
                 if (creatureSpawnEvent.isCancelled()) {
                     entity.remove();
@@ -75,14 +75,13 @@ public class EntityListener implements Listener {
     @EventHandler
     private void onArrowHit(ProjectileCollideEvent event) {
         switch (event.getCollidedWith().getType()) {
-            case SKELETON:
-            case WITHER_SKELETON:
-            case STRAY:
+            case SKELETON, WITHER_SKELETON, STRAY -> {
                 double projectile = event.getEntity().getLocation().getY();
                 double entityEye = ((LivingEntity) event.getCollidedWith()).getEyeLocation().getY() - 0.10;
                 if (projectile < entityEye) {
                     event.setCancelled(true);
                 }
+            }
         }
     }
 

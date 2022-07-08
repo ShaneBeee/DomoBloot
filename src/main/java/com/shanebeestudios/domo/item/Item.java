@@ -1,7 +1,6 @@
 package com.shanebeestudios.domo.item;
 
 import com.shanebeestudios.domo.DomoBloot;
-import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -15,16 +14,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class Item {
 
     private final NamespacedKey key;
     final ItemStack itemStack;
 
-    Item(@NotNull String key, @NotNull ItemStack itemStack) {
-        this.key = new NamespacedKey(DomoBloot.getPlugin(), key.toLowerCase());
+    Item(@NotNull String key, @NotNull Material material) {
+        this.key = DomoBloot.getKey(key.toLowerCase(Locale.ROOT));
 
         // Add custom-item key to NBT
-        NBTItem nbtItem = new NBTItem(itemStack);
+        NBTItem nbtItem = new NBTItem(new ItemStack(material));
         nbtItem.setString("key", this.key.toString());
         this.itemStack = nbtItem.getItem();
         Items.ITEMS.put(this.key.toString(), this);
@@ -43,14 +43,14 @@ public class Item {
     }
 
     public String getMinecraftNamespace() {
-        return "minecraft:" + itemStack.getType().toString().toLowerCase(Locale.ROOT);
+        return itemStack.getType().getKey().toString();
     }
 
-    public NBTCompound getNBT() {
+    public NBTItem getNBT() {
         return new NBTItem(itemStack);
     }
 
-    public void give(Player player, int amount) {
+    public void drop(Player player, int amount) {
         World world = player.getWorld();
         ItemStack itemStack = this.itemStack.clone();
         itemStack.setAmount(amount);
@@ -58,6 +58,7 @@ public class Item {
         drop.setVelocity(new Vector(0, 0, 0));
     }
 
+    @SuppressWarnings("deprecation")
     public String getName() {
         ItemMeta meta = itemStack.getItemMeta();
         if (meta.hasDisplayName()) {
@@ -72,7 +73,7 @@ public class Item {
 
     public boolean compare(ItemStack itemStack) {
         NBTItem nbtItem = new NBTItem(itemStack);
-        if (nbtItem.hasKey("key")) {
+        if (nbtItem.hasTag("key")) {
             return nbtItem.getString("key").equalsIgnoreCase(this.key.toString());
         }
         return false;

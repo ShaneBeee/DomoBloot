@@ -7,7 +7,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +18,9 @@ public class EnergyDrink extends Consumable {
     private final double energy;
     private final double fatigue;
 
+    @SuppressWarnings("deprecation") // Paper deprecation
     EnergyDrink(@NotNull String key, @NotNull String name, double energy, double fatigue, Color color) {
-        super(key, new ItemStack(Material.POTION));
+        super(key, Material.POTION);
         this.energy = energy;
         this.fatigue = fatigue;
 

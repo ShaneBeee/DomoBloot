@@ -15,9 +15,11 @@ import com.shanebeestudios.domo.task.PlayerTask;
 import com.shanebeestudios.domo.task.ServerTask;
 import com.shanebeestudios.domo.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.N;
 
 @SuppressWarnings("unused")
 public class DomoBloot extends JavaPlugin {
@@ -88,6 +90,10 @@ public class DomoBloot extends JavaPlugin {
 
     public static DomoBloot getPlugin() {
         return instance;
+    }
+
+    public static NamespacedKey getKey(String key) {
+        return new NamespacedKey(instance, key);
     }
 
     public PlayerDataConfig getPlayerDataConfig() {

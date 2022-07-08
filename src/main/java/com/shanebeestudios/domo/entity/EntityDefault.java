@@ -223,13 +223,13 @@ public class EntityDefault {
         if (entity.getType() != entityType) return;
 
         if (walkSpeed >= 0) {
-            if (requiresAdult && entity instanceof Ageable && !((Ageable) entity).isAdult()) {
+            if (requiresAdult && entity instanceof Ageable ageable && !ageable.isAdult()) {
                 return;
             }
             entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(walkSpeed);
         }
         if (walkRange != null) {
-            if (requiresAdult && entity instanceof Ageable && !((Ageable) entity).isAdult()) {
+            if (requiresAdult && entity instanceof Ageable ageable && !ageable.isAdult()) {
                 return;
             }
             entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(walkRange.get());
