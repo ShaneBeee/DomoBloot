@@ -16,6 +16,7 @@ public class ServerTask implements Runnable {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -23,6 +24,7 @@ public class ServerTask implements Runnable {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private String listHeader(Player player) {
         StringBuilder builder = new StringBuilder();
         builder.append(Util.getColString(Util.PREFIX)).append(NEW_LINE);

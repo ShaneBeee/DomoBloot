@@ -1,7 +1,6 @@
 package com.shanebeestudios.domo.listener;
 
 import com.shanebeestudios.domo.DomoBloot;
-import com.shanebeestudios.domo.data.BlockFaceBlock;
 import com.shanebeestudios.domo.data.PlayerData;
 import com.shanebeestudios.domo.item.Consumable;
 import com.shanebeestudios.domo.item.Item;
@@ -10,25 +9,19 @@ import com.shanebeestudios.domo.manager.PlayerManager;
 import com.shanebeestudios.domo.manager.RecipeManager;
 import com.shanebeestudios.domo.util.PlayerUtils;
 import com.shanebeestudios.domo.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -36,8 +29,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -60,8 +51,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof Player) {
-            Player player = ((Player) entity);
+        if (entity instanceof Player player) {
             double health = PlayerUtils.getMaxHealth(player);
             double finalDamage = event.getFinalDamage();
             double newHealth = health - finalDamage;
@@ -77,8 +67,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onSaturationReached(FoodLevelChangeEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = ((Player) event.getEntity());
+        if (event.getEntity() instanceof Player player) {
 
             // If the food level is rising, we get out of here
             if (event.getFoodLevel() > player.getFoodLevel()) return;
@@ -117,6 +106,7 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -151,6 +141,7 @@ public class PlayerListener implements Listener {
         plugin.getPlayerManager().unloadPlayerData(player);
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     private void onDeath(PlayerDeathEvent event) {
         String deathMessage = event.getDeathMessage();
@@ -204,6 +195,7 @@ public class PlayerListener implements Listener {
     }
 
     // Format chat
+    @SuppressWarnings("deprecation")
     @EventHandler
     private void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
@@ -211,38 +203,6 @@ public class PlayerListener implements Listener {
         if (msg.startsWith("!")) return; // Skript effect commands
 
         event.setFormat(Util.getColString("&7[&a" + player.getName() + "&7] &c» &r" + msg));
-    }
-
-    private final Map<Player, BlockFaceBlock> BLOCK_FACE_MAP = new HashMap<>();
-
-    // Cache the blockFace of the last touched block
-    @EventHandler
-    private void onTouch(PlayerInteractEvent event) {
-        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            Block block = event.getClickedBlock();
-            if (block != null) {
-                Player player = event.getPlayer();
-                BlockFace blockFace = event.getBlockFace();
-                BLOCK_FACE_MAP.put(player, new BlockFaceBlock(block.getLocation(), blockFace));
-            }
-        }
-    }
-
-    // When a block is broken in a cave, make it cave-air not air
-    @EventHandler
-    private void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-        if (BLOCK_FACE_MAP.containsKey(player)) {
-            Block block = event.getBlock();
-            BlockFaceBlock blockFaceBlock = BLOCK_FACE_MAP.get(player);
-            if (blockFaceBlock.getLocation().equals(block.getLocation())) {
-                BlockFace blockFace = blockFaceBlock.getBlockFace();
-                Block relative = block.getRelative(blockFace);
-                if (relative.getType() == Material.CAVE_AIR) {
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> block.setType(Material.CAVE_AIR), 1);
-                }
-            }
-        }
     }
 
 }

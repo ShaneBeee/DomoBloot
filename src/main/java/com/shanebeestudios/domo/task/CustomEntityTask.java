@@ -26,16 +26,15 @@ public class CustomEntityTask implements Runnable {
             player.getNearbyEntities(10, 10, 10).forEach(entity -> {
                 if (entity instanceof Player) return;
 
-                if (entity instanceof Wolf) {
-                    Wolf wolf = ((Wolf) entity);
+                if (entity instanceof Wolf wolf) {
                     if (!wolf.isTamed() && !PlayerUtils.isDay(player)) {
                         wolf.setAngry(true);
                         wolf.setTarget(player);
                     }
                 } else {
                     CustomEntity customEntity = CustomEntities.getCustom(entity);
-                    if (customEntity instanceof Trap) {
-                        ((Trap) customEntity).trap(entity, player);
+                    if (customEntity instanceof Trap trap) {
+                        trap.trap(entity, player);
                     }
                 }
             });

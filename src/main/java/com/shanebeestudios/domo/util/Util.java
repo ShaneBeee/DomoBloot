@@ -27,6 +27,7 @@ public class Util {
     public static final World WORLD = Bukkit.getWorlds().get(0);
     private static final Pattern HEX_PATTERN = Pattern.compile("<#([A-Fa-f0-9]){6}>");
 
+    @SuppressWarnings("deprecation")
     public static String getColString(String string) {
         Matcher matcher = HEX_PATTERN.matcher(string);
         while (matcher.find()) {
@@ -59,6 +60,7 @@ public class Util {
         sendColMsg(receiver, message, true);
     }
 
+    @SuppressWarnings("deprecation")
     public static void sendItemMsg(Player player, String message, Item item) {
         String[] split = message.split("<item>");
 
@@ -93,6 +95,7 @@ public class Util {
         return WordUtils.capitalize(string.toLowerCase().replace("_", " "));
     }
 
+    @SuppressWarnings("deprecation")
     public static void broadcast(String message) {
         Bukkit.broadcastMessage(getColString(PREFIX + message));
     }
@@ -101,6 +104,7 @@ public class Util {
         Bukkit.getOnlinePlayers().forEach(player -> player.sendMessage(getColString(PREFIX + message)));
     }
 
+    @SuppressWarnings("deprecation")
     public static void sendTitle(Player player, String title, String subtitle, int in, int stay, int out) {
         String t = getColString(title);
         String st = getColString(subtitle);

@@ -56,6 +56,7 @@ public class EntityListener implements Listener {
 
     // CreatureSpawnEvent is no longer called for chunk gen
     // So we are going to manually call it
+    @SuppressWarnings("deprecation")
     @EventHandler
     private void onEntityGenerate(ChunkPopulateEvent event) {
         Chunk chunk = event.getChunk();

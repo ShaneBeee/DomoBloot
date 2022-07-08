@@ -2,6 +2,7 @@ package com.shanebeestudios.domo.listener;
 
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.shanebeestudios.domo.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.TimeSkipEvent;
@@ -18,9 +19,10 @@ public class WorldListener implements Listener {
     }
 
     // Change name in ping event
+    @SuppressWarnings("deprecation")
     @EventHandler
     private void onPing(PaperServerListPingEvent event) {
-        event.setVersion("BeeServer 1.15.2");
+        event.setVersion("DomoBloot " + Bukkit.getMinecraftVersion());
         event.setMotd(Util.getColString(Util.PREFIX));
     }
 

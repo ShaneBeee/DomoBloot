@@ -1,6 +1,5 @@
 package com.shanebeestudios.domo.util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -33,14 +32,10 @@ public class PlayerUtils {
         }
         stringBuilder.append(color);
 
-        for (int i = 0; i < e; i++) {
-            stringBuilder.append("|");
-        }
+        stringBuilder.append("|".repeat(Math.max(0, e)));
 
         stringBuilder.append(ChatColor.GRAY);
-        for (int i = e; i < 20; i++) {
-            stringBuilder.append("|");
-        }
+        stringBuilder.append("|".repeat(Math.max(0, 20 - e)));
         return stringBuilder.toString();
     }
 
@@ -55,15 +50,11 @@ public class PlayerUtils {
             String color = Util.getColString("<#" + fatColors[(int) fatigue] + ">");
             stringBuilder.append(color);
 
-            for (int i = 0; i < fat; i++) {
-                stringBuilder.append("|");
-            }
+            stringBuilder.append("|".repeat(fat));
         }
 
         stringBuilder.append(ChatColor.GRAY);
-        for (int i = fat; i < 20; i++) {
-            stringBuilder.append("|");
-        }
+        stringBuilder.append("|".repeat(Math.max(0, 20 - fat)));
         return stringBuilder.toString();
     }
 
@@ -76,15 +67,11 @@ public class PlayerUtils {
             String color = Util.getColString("<#" + fatColors[10 - c] + ">");
             stringBuilder.append(color);
 
-            for (int i = 0; i < round; i++) {
-                stringBuilder.append("|");
-            }
+            stringBuilder.append("|".repeat(round));
         }
 
         stringBuilder.append(ChatColor.GRAY);
-        for (int i = round; i < 20; i++) {
-            stringBuilder.append("|");
-        }
+        stringBuilder.append("|".repeat(Math.max(0, 20 - round)));
         return stringBuilder.toString();
     }
 

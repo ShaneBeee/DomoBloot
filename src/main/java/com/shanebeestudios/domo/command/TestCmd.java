@@ -17,11 +17,10 @@ public class TestCmd extends BaseCmd {
 
     @Override
     protected boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Player only command");
             return true;
         }
-        Player player = ((Player) sender);
         Location location = player.getTargetBlock(32).getLocation().clone().add(0, 1, 0);
         CustomEntities.PILLAGER_HORSEMEN.spawn(location);
         return true;
