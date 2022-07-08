@@ -13,7 +13,9 @@ import com.shanebeestudios.domo.manager.RecipeManager;
 import com.shanebeestudios.domo.task.CustomEntityTask;
 import com.shanebeestudios.domo.task.PlayerTask;
 import com.shanebeestudios.domo.task.ServerTask;
+import com.shanebeestudios.domo.util.DomoLogger;
 import com.shanebeestudios.domo.util.Util;
+import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -43,6 +45,9 @@ public class DomoBloot extends JavaPlugin {
     public void onEnable() {
         long start = System.currentTimeMillis();
         instance = this;
+        Util.log("Initializing loading...");
+        MinecraftVersion.replaceLogger(DomoLogger.getLogger());
+
         this.playerDataConfig = new PlayerDataConfig(this);
         this.playerManager = new PlayerManager(this);
         this.recipeManager = new RecipeManager(this);
